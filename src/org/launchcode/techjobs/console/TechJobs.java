@@ -3,6 +3,8 @@ package org.launchcode.techjobs.console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map;
+import java.lang.String;
 
 /**
  * Created by LaunchCode
@@ -61,7 +63,7 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -108,9 +110,27 @@ public class TechJobs {
         return choiceKeys[choiceIdx];
     }
 
-    // Print a list of jobs
+    // This part works
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        String header = "*****";
+        String footer = "*****";
 
-        System.out.println("printJobs is not implemented yet");
+        if (someJobs.size() == 0) {
+            System.out.println(header);
+            System.out.println("No jobs found.");
+        }
+
+        else {
+            for (int i = 0; i < someJobs.size(); i++) {
+                System.out.println("");
+                System.out.println(header);
+                System.out.println("Position Type: " + someJobs.get(i).get("position type"));
+                System.out.println("Name: " + someJobs.get(i).get("name"));
+                System.out.println("Employer: " + someJobs.get(i).get("employer"));
+                System.out.println("Location: " + someJobs.get(i).get("location"));
+                System.out.println("Core Competency: " + someJobs.get(i).get("core competency"));
+                System.out.println(footer);
+            }
+        }
     }
 }

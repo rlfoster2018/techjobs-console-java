@@ -36,7 +36,7 @@ public class JobData {
         ArrayList<String> values = new ArrayList<>();
 
         for (HashMap<String, String> row : allJobs) {
-            String aValue = row.get(field);
+            String aValue = row.get(field.toLowerCase());
 
             if (!values.contains(aValue)) {
                 values.add(aValue);
@@ -75,8 +75,9 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
+            String valueCase = value.toLowerCase();
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(valueCase)) {
                 jobs.add(row);
             }
         }
@@ -123,6 +124,51 @@ public class JobData {
             System.out.println("Failed to load job data");
             e.printStackTrace();
         }
+    }
+
+    // this search requires a key for key match; "web" won't work, but "Kansas City" will
+    public static ArrayList<HashMap<String, String>> findByValue (String searchValue) {
+
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        /*
+
+        For the record, THIS method worked to satisfy step 2 in the instructions.
+        It wasn't until I got to step 3 with the case sensitivity where I faced several
+        options; the least labor intensive with the highest amount of data integrity was a
+        double loop through the hashmap as deliberately instructed not to do for step 2.
+        Que sera sera.
+
+        for (HashMap<String, String> row : allJobs) {
+
+            String searchValueCase = searchValue.toLowerCase();
+
+            if (row.containsValue(searchValue)) {
+                jobs.add(row);
+            }
+        }
+        return jobs;
+
+        */
+        // STEP 3 BELOW THIS LINE
+
+        for (HashMap<String, String> row : allJobs) {
+
+            for (String hashValue : row.values()) {
+
+                String hashCase = hashValue.toLowerCase();
+                String searchCase = searchValue.toLowerCase();
+
+                if (hashCase.contains(searchCase)) {
+                    jobs.add(row);
+                }
+
+            }
+
+        }
+        return jobs;
     }
 
 }
